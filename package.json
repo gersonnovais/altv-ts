@@ -3,11 +3,14 @@
     "version": "5.2.1",
     "description": "TypeScript with alt:V Made Easy",
     "scripts": {
+        "clean": "rimraf ./resources",
+        "build": "npm run clean && swc ./src -d ./resources --copy-files",
         "update": "altv-pkg d release",
-        "build": "node ./scripts/compiler.js && node ./scripts/copy.js && node ./scripts/transform.js",
         "windows": "npm run build && altv-server.exe",
         "linux": "npm run build && ./altv-server",
-        "dev": "node ./scripts/watch.js"
+        "windev": "nodemon --watch \"./src/**\" --ext \"ts\" --exec \"npm run build && altv-server.exe\"",
+        "dev": "npm run windev",
+        "reinstall": "rimraf node_modules && npm install"
     },
     "author": "stuyk",
     "license": "ISC",
@@ -35,8 +38,11 @@
     },
     "type": "module",
     "dependencies": {
+        "@stuyk/ezmongodb": "^3.0.0",
         "fkill": "^8.1.0",
-        "toml": "^3.0.0",
-        "@stuyk/ezmongodb": "^3.0.0"
+        "nodemon": "^3.0.1",
+        "rimraf": "^5.0.1",
+        "swc": "^1.0.11",
+        "toml": "^3.0.0"
     }
 }

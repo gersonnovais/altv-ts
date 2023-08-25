@@ -1,12 +1,19 @@
 import * as alt from 'alt-server';
 
-alt.log(`alt:V Server - Boilerplate Started`);
-alt.on('playerConnect', handlePlayerConnect);
+//Eventos
+import './events/playerConnect.js';
 
-function handlePlayerConnect(player: alt.Player) {
-    alt.log(`[${player.id}] ${player.name} has connected to the server.`);
+//Sistemas
+import Marker from './systems/markers.js';
+Marker.init();
 
-    player.model = 'mp_m_freemode_01';
-    player.spawn(36.19486618041992, 859.3850708007812, 197.71343994140625, 0);
-    alt.emitClient(player, 'log:Console', 'alt:V Server - Boilerplate Started');
-}
+import WeaponGiver from './systems/weaponGiver.js';
+WeaponGiver.init();
+
+alt.on('resourceStart', error =>{
+    console.log(`${alt.resourceName} inicou. Detalhes: ${error}`);
+})
+
+alt.on('resourceStop', () => {
+    console.log(`${alt.resourceName} parou`);
+})
